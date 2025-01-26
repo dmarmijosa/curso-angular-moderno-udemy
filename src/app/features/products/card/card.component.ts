@@ -2,9 +2,9 @@ import { CurrencyPipe, SlicePipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
+  EventEmitter, input,
   Input,
-  Output,
+  Output
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Product } from '@features/products/product.interface';
@@ -20,10 +20,11 @@ import { AddToCartComponent } from '@shared/ui/add-to-cart/add-to-cart.component
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CardComponent {
-  @Input({ required: true }) product!: Product;
+  //@Input({ required: true }) product!: Product;
+  currentProduct = input.required<Product>({alias: 'product'});
   @Output() addToCartEvent = new EventEmitter<Product>();
 
   onAddToCart(): void {
-    this.addToCartEvent.emit(this.product);
+    this.addToCartEvent.emit(this.currentProduct());
   }
 }
