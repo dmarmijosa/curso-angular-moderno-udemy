@@ -2,7 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter, input,
-  Input,
+  Input, output,
   Output
 } from '@angular/core';
 
@@ -28,7 +28,8 @@ const defaultConfig: AddToCartConfig = {
 export class AddToCartComponent {
   //@Input() config: AddToCartConfig = defaultConfig;
   config = input<AddToCartConfig>(defaultConfig);
-  @Output() addToCartEvent = new EventEmitter<void>();
+  addToCartEvent = output<void>();
+  //@Output()  = new EventEmitter<void>();
 
   onAddToCart(): void {
     this.addToCartEvent.emit();
