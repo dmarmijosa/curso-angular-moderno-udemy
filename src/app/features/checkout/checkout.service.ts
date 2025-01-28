@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Signal } from '@angular/core';
 import {
   PaymentProcessor,
   PaymentResult,
@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class CheckoutService implements PaymentProcessor {
-  processPay(cart: Observable<CartStore>): Observable<PaymentResult> {
+  processPay(cart: Signal<CartStore>): Signal<PaymentResult> {
     console.warn('Method not implemented.', cart);
     throw new Error('Method not implemented.');
   }

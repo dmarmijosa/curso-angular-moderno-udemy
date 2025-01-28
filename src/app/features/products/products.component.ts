@@ -20,8 +20,7 @@ export default class ProductsComponent implements OnInit {
   private readonly _productsService = inject(ProductsService);
   private readonly _cartService = inject(CartStateService);
 
-  //products$ = this._productsService.products$;
-  products$ = toSignal(this._productsService.products$);
+  products = this._productsService.products;
   ngOnInit() {
     this._route.queryParams.subscribe((params) => {
       const category = params['category'] || 'all';
@@ -31,9 +30,5 @@ export default class ProductsComponent implements OnInit {
 
   onAddToCart(product: Product): void {
     this._cartService.addToCart(product);
-  }
-
-  trackById(index: number, product: Product): number {
-    return product.id;
   }
 }

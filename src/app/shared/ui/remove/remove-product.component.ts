@@ -1,8 +1,6 @@
 import {
   ChangeDetectionStrategy,
-  Component,
-  EventEmitter, output,
-  Output
+  Component, output
 } from '@angular/core';
 import { RemoveSVGComponent } from './svg/remove-svg.component';
 

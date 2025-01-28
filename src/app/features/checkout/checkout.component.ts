@@ -22,12 +22,12 @@ import { RemoveProductComponent } from '@shared/ui/remove/remove-product.compone
   styleUrl: './checkout.component.scss',
 })
 export default class CheckoutComponent {
-  readonly cartService = inject(CartStateService);
-
+  private readonly cartService = inject(CartStateService);
+  cartStore= this.cartService.cartStore;
   private readonly _checkoutSvc = inject(CheckoutService);
 
   onProceedToPay(): void {
-    this._checkoutSvc.processPay(this.cartService.cart$);
+    this._checkoutSvc.processPay(this.cartStore);
   }
 
   clearAll(): void {
@@ -35,6 +35,6 @@ export default class CheckoutComponent {
   }
 
   onRemoveProduct(productId: number) {
-    console.log(productId);
+    this.cartService.removeFromCart(productId);
   }
 }
