@@ -1,11 +1,26 @@
 <section class="product-container">
-  <div class="product-grid">
-    @for (product of products(); track product.id) {
-      <app-card (addToCartEvent)="onAddToCart($event)"
-                data-testid="product-card" class="product-card" [product]="product">
-      </app-card>
-    } @empty {
-      <p>No results yet!</p>
-    }
-  </div>
+  @defer (on viewport; prefetch on idle) {
+    <div class="product-grid">
+      @for (product of products(); track product.id) {
+        <app-card (addToCartEvent)="onAddToCart($event)"
+                  data-testid="product-card" class="product-card" [product]="product">
+        </app-card>
+      } @empty {
+        <p>No results yet!</p>
+      }
+    </div>
+  } @loading () {
+
+    <div class="loading-state">
+      <p>Cargando productos ...</p>
+    </div>
+  } @placeholder () {
+    <div class="placeholder-state">
+      <p>Desplázate hacia abajo para cargar los productos</p>
+    </div>
+  } @error {
+    <div class="error-state">
+      <p>Algo malo a pasado</p>
+    </div>
+  }
 </section>
