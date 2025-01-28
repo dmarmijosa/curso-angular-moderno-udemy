@@ -1,12 +1,14 @@
 import { AsyncPipe  } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, effect, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { CategoryService } from '@features/categories/categories.service';
+import { categorybuttonComponent } from '@features/categories/category-button/category-button.component';
+import { ProductsService } from '@features/products/products.service';
 
 @Component({
   selector: 'app-category-filter',
   standalone: true,
-  imports: [ AsyncPipe],
+  imports: [AsyncPipe, categorybuttonComponent],
   styleUrl: './category-filter.component.scss',
   template: `
     <h2 class="heading">
@@ -15,26 +17,31 @@ import { CategoryService } from '@features/categories/categories.service';
     </h2>
     <ul class="list-container">
       <!-- TODO: Can be an  component -->
-      <li>
-        <button type="button" (click)="onClick('all')" class="btn btn-hover">
-          {{ 'ALL' }}
-        </button>
-      </li>
+      <!--      <li>-->
+      <!--        <button type="button" (click)="onClick('all')" class="btn btn-hover">-->
+      <!--          {{ 'ALL' }}-->
+      <!--        </button>-->
+      <!--      </li>-->
+      <app-category-button category="ALL" [(filterCategory)]="selectedCategory"/>
       <!-- TODO: Can be an  component -->
-      @for (category of (categories$ | async); track $index) {
-        <li>
-          <button type="button" (click)="onClick(category)" class="btn btn-hover">
-            {{ category }}
-          </button>
-        </li>
+      @for (category of categories(); track $index) {
+      <li>
+        <app-category-button [category]="category" [(filterCategory)]="selectedCategory"></app-category-button>
+      </li>
       }
     </ul>
   `,
 })
 export class CategoryFilterComponent {
-  readonly categories$ = inject(CategoryService).categories$;
-
+  readonly categories = inject(CategoryService).categories;
+  private readonly productoService = inject(ProductsService);
   private readonly _router = inject(Router);
+
+  selectedCategory = signal<string>('all');
+
+  constructor() {
+    effect(() => this.productoService.filterProductsByCategory(this.selectedCategory()),{allowSignalWrites:true});
+  }
 
   onClick(category: string): void {
     this._router.navigate([], {
