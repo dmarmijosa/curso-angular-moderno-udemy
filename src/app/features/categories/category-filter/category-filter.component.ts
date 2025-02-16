@@ -33,7 +33,7 @@ import { ProductsService } from '@features/products/products.service';
   `,
 })
 export class CategoryFilterComponent {
-  readonly categories = inject(CategoryService).categories;
+  readonly categories    = inject(CategoryService).categories;
   private readonly productoService = inject(ProductsService);
   private readonly _router = inject(Router);
 
